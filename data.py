@@ -27,16 +27,16 @@ def adjust_labels(y):
 class StandardScaler:
 
     def __init__(self):
-        self.sd = None
-        self.mu = None
+        self.sd_array = None
+        self.mu_array = None
 
     ''' fit scaler by learning mean and standard deviation per feature '''
     def fit(self, X):
-        self.mu = sum(X) / X.shape[0]
-        self.sd = (sum((X - self.mu) ** 2) / X.shape[0]) ** 0.5
+        self.mu_array = np.mean(X, axis=0)
+        self.sd_array = np.std(X, axis=0)
 
     def transform(self, X):
-        return (X - self.mu) / self.sd
+        return (X - self.mu_array) / self.sd_array
 
     def fit_transform(self, X):
         self.fit(X)
