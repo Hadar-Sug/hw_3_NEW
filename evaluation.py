@@ -25,8 +25,8 @@ def recall_precision(y_true, y_pred):
     :return: returns recall of binary classification task
     """
     TN, FP, FN, TP = binary_confusion_matrix(y_true, y_pred)
-    recall = TP / TP + FN
-    precision = TP / TP + FP
+    recall = TP / (TP + FN)
+    precision = TP / (TP + FP)
     return recall, precision
 
 

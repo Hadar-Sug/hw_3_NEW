@@ -1,5 +1,5 @@
 import numpy as np
-from scipy import stats
+from scipy.stats import mode
 from abc import abstractmethod
 from data import StandardScaler as SS
 
@@ -22,10 +22,11 @@ class KNN:
 
     def neighbours_indices(self, x):
         distances = list()
-        for sample in self.X_train:
-            dist = KNN.dist(sample, x)
+        X_train = self.ss.transform(self.X_train)
+        for sample in X_train:
+            dist = KNN.dist(x, sample)
             distances.append(dist)
-        idx = np.argpartition(np.array(distances), self.k)
+        idx = np.argsort(np.array(distances))
         return idx[:self.k]
 
     @staticmethod
@@ -60,3 +61,5 @@ class RegressionKNN(KNN):
             sub_list = np.array([self.y_train[idx] for idx in indices])
             pred.append(sub_list.mean())
         return pred
+
+

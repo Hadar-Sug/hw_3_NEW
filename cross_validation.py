@@ -30,6 +30,16 @@ def model_selection_cross_validation(model, k_list, X, y, folds, metric):
     for row, k in enumerate(k_list):
         model_k = model(k)
         scores = np.array(cross_validation_score(model_k, X, y, folds, metric))
-        scores_mean.append(np.mean(scores))
-        scores_sd.append(np.std(scores) * ((N / (N - 1)) ** 0.5))
+        scores_mean.append(np.mean(scores, dtype=np.float64))
+        scores_sd.append(np.std(scores, dtype=np.float64) * ((N / (N - 1)) ** 0.5))
     return scores_mean, scores_sd
+
+'''
+k=3, mean score: 0.6334, std of scores: 0.0471
+k=5, mean score: 0.6282, std of scores: 0.0678
+k=11, mean score: 0.6629, std of scores: 0.0331
+k=25, mean score: 0.6771, std of scores: 0.0594
+k=51, mean score: 0.7048, std of scores: 0.0249
+k=75, mean score: 0.7144, std of scores: 0.0239
+k=101, mean score: 0.7012, std of scores: 0.0175
+'''
