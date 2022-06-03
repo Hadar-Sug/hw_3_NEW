@@ -1,5 +1,7 @@
 import numpy as np
 
+import knn
+
 
 def cross_validation_score(model, X, y, folds, metric):
     """
@@ -12,9 +14,10 @@ def cross_validation_score(model, X, y, folds, metric):
     :return: list with score for each split
     """
     scores = list()
-    for train_idices, validation_indices in folds.split(X):
-        X_train, X_test = X[train_idices], X[validation_indices]
-        y_train, y_test = y[train_idices], y[validation_indices]
+    for train_indices, validation_indices in folds.split(X):
+        X_train, X_test = X[train_indices, :], X[validation_indices, :]
+        y_train, y_test = [y[index] for index in train_indices], [y[index] for index in validation_indices]
+        model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         scores.append(metric(y_test, y_pred))
     return scores
@@ -24,13 +27,9 @@ def model_selection_cross_validation(model, k_list, X, y, folds, metric):
     scores_mean = list()
     scores_sd = list()
     N = len(k_list)
-    total_scores = np.zeros(N, 5)
     for row, k in enumerate(k_list):
         model_k = model(k)
         scores = np.array(cross_validation_score(model_k, X, y, folds, metric))
-        total_scores[row] = scores
-    scores_mean = np.mean(total_scores, axis=0)  # mean by columns? - check axis
-    scores_mean = np.std(total_scores, axis=0) * ((N / (N - 1)) ** 0.5)  # sd by columns?
+        scores_mean.append(np.mean(scores))
+        scores_sd.append(np.std(scores) * ((N / (N - 1)) ** 0.5))
     return scores_mean, scores_sd
-
-

@@ -15,13 +15,7 @@ def load_data(path):
 
 
 def adjust_labels(y):
-    return map(lambda x: 0 if x <= 1 else 0, y)
-    # for i in range(len(y)):
-    #   if y[i] <= 1:
-    #        y[i] = 0
-    #    else:
-    #        y[i] = 1
-    # mereturn y
+    return list(map(lambda x: 0 if x <= 1 else 1, y))
 
 
 class StandardScaler:
