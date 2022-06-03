@@ -25,7 +25,6 @@ class KNN:
         for sample in self.X_train:
             dist = KNN.dist(sample, x)
             distances.append(dist)
-        print(distances)
         idx = np.argpartition(np.array(distances), self.k)
         return idx[:self.k]
 
@@ -44,9 +43,7 @@ class ClassificationKNN(KNN):
         for x in X_test:
             indices = self.neighbours_indices(x)  # index's of closest neighbors
             closest_labels = [self.y_train[index] for index in indices]  # labels of closest neighbors
-            print(closest_labels)
             predicted_label = mode(closest_labels).mode[0]
-            print(predicted_label)
             pred.append(predicted_label)  # get the mode and append to the list
         return pred
 
