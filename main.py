@@ -20,10 +20,19 @@ def main(argv):
     means, sds = cross_validation.model_selection_cross_validation(model, k_list, X, y, folds, metric)
     for mean, sd, k in zip(means, sds, k_list):
         print(f"k={k}, mean score: {mean:.4f}, std of scores: {sd:.4f}")
+    evaluation.visualize_results(k_list, means, "f1_score", "Classification", "./Classification")
 
     # part B - Regression
-    X = data.add_noise(df[["t1", "t2", "wind_speed"]])
+    print("part 2 - Regression\n")
+    folds = data.get_folds()
+    X = (data.add_noise(df[["t1", "t2", "wind_speed"]])).to_numpy()
     y = list(df["hum"])
+    metric = evaluation.rmse
+    model = knn.RegressionKNN
+    means, sds = cross_validation.model_selection_cross_validation(model, k_list, X, y, folds, metric)
+    for mean, sd, k in zip(means, sds, k_list):
+        print(f"k={k}, mean score: {mean:.4f}, std of scores: {sd:.4f}")
+    evaluation.visualize_results(k_list, means, "RMSE", "Regression", "./Regression")
 
 
 if __name__ == '__main__':

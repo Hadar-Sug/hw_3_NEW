@@ -11,7 +11,7 @@ def f1_score(y_true, y_pred):
     :return: returns f1_score of binary classification task with true labels y_true and predicted labels y_pred
     """
     recall, precision = recall_precision(y_true, y_pred)
-    return 2*recall*precision / (recall+precision)
+    return 2 * recall * precision / (recall + precision)
 
 
 def recall_precision(y_true, y_pred):
@@ -47,9 +47,15 @@ def rmse(y_true, y_pred):
     :param y_pred: array holding predicted labels
     :return: returns RMSE of regression task with true labels y_true and predicted labels y_pred
     """
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
     return (sum((y_true - y_pred) ** 2) / len(y_true)) ** 0.5
 
 
 def visualize_results(k_list, scores, metric_name, title, path):
-    pass
-
+    plt.plot(k_list, scores)
+    plt.title(title)
+    plt.xlabel("k")
+    plt.ylabel(metric_name)
+    plt.savefig(path)
+    plt.clf()
