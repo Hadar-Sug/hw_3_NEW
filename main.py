@@ -11,7 +11,7 @@ def main(argv):
     df = data.load_data(argv[1])
     folds = data.get_folds()
     # part A - Classification
-    print("part 1 - Classification\n")
+    print("Part1 - Classification")
     X = (data.add_noise(df[["t1", "t2", "wind_speed", "hum"]])).to_numpy()
     y = data.adjust_labels(list(df["season"]))
     k_list = [3, 5, 11, 25, 51, 75, 101]
@@ -21,9 +21,9 @@ def main(argv):
     for mean, sd, k in zip(means, sds, k_list):
         print(f"k={k}, mean score: {mean:.4f}, std of scores: {sd:.4f}")
     evaluation.visualize_results(k_list, means, "f1_score", "Classification", "./Classification")
-
+    print()
     # part B - Regression
-    print("part 2 - Regression\n")
+    print("Part2 - Regression")
     folds = data.get_folds()
     X = (data.add_noise(df[["t1", "t2", "wind_speed"]])).to_numpy()
     y = list(df["hum"])

@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.model_selection import KFold
 import pandas as pd
+
 np.random.seed(2)
 
 
@@ -24,6 +25,7 @@ class StandardScaler:
         self.mu_array = None
 
     ''' fit scaler by learning mean and standard deviation per feature '''
+
     def fit(self, X):
         self.mu_array = np.mean(X, axis=0)
         self.sd_array = np.std(X, axis=0)

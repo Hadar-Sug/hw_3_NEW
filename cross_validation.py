@@ -26,13 +26,13 @@ def cross_validation_score(model, X, y, folds, metric):
 def model_selection_cross_validation(model, k_list, X, y, folds, metric):
     scores_mean = list()
     scores_sd = list()
-    N = len(k_list)
     for row, k in enumerate(k_list):
         model_k = model(k)
         scores = np.array(cross_validation_score(model_k, X, y, folds, metric))
-        scores_mean.append(np.mean(scores, dtype=np.float64))
-        scores_sd.append(np.std(scores, dtype=np.float64) * ((N / (N - 1)) ** 0.5))
+        scores_mean.append(np.mean(scores))
+        scores_sd.append(np.std(scores, ddof=1))
     return scores_mean, scores_sd
+
 
 '''
 Part1 - Classification
